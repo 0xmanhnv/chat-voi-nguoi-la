@@ -1,4 +1,4 @@
-var socket = io('http://localhost:8080');
+var socket = io('https://nguyenmanh.herokuapp.com');
 
 
 socket.on('users-online-system', function(data) {
