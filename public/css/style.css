@@ -9,6 +9,9 @@
   right: 0px;
   z-index: 1000;
 }
+.container {
+  margin: 0 auto !important;
+}
 header {
 
 }
@@ -20,6 +23,7 @@ header {
     height: 70px;
     margin-bottom: 0px;
   }
+
     .navbar-header {
       height: 70px;
     }
@@ -46,14 +50,17 @@ header {
   padding-top: 75px;
   background: #fbf8f8;
   z-index: 1;
+  display: none;
 }
   .message {
     border-bottom: 1px dotted #d0cece;
   }
 footer {
+  width: 100%;
   position: fixed;
   z-index: 1000;
   bottom: 0;
+  display: none;
 }
   #newNext, #btnSendMessage {
     cursor: pointer;

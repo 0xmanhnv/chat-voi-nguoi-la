@@ -1,3 +1,10 @@
+/*
+*
+* -app name: chat voi nguoi la
+* -author: Nguyễn Mạnh
+*
+*/
+
 var express = require('express');
 var path = require('path');
 var app = express();
@@ -20,20 +27,45 @@ var arrUsersOnline = [];
 
 //lắng nghe kết nối
 io.on('connection', function(socket) {
-  arrUsersOnline.push(socket.id);
+  // console.log(arrUsersOnline);
   // thuc hien code socket
-  console.log("Co nguoi ket noi: " + socket.id);
+  // console.log("Co nguoi ket noi: " + socket.id);
   io.sockets.emit('users-online-system', arrUsersOnline.length);
+
+  // lang nghe user dang ky nick
+  socket.on('user-dang-ky', function(data) {
+    // kiem tra su ton tai cua user
+    if(arrUsersOnline.indexOf(data) >= 0) {
+      socket.emit('server-send-dky-fail', "Đã có người sử dụng!");
+      // console.log(arrUsersOnline.indexOf(data));
+    }else if (data.indexOf(" ") >= 0) {
+      socket.emit('server-send-dky-fail', "Không được chứa khoảng trắng!");
+    }else {
+      socket.username = data;
+      arrUsersOnline.push(data);
+      socket.emit('server-send-dky-success');
+      io.sockets.emit('users-online-system', arrUsersOnline.length);
+      console.log(arrUsersOnline.length);
+    }
+
+  });
 
   // lang nghe user gui tin nhan len
   socket.on('user-send-message', function(data) {
-    io.sockets.emit('server-send-message', data);
+    var bcData = socket.username + " : " + data;
+    var cmData = "Bạn : " + data;
+
+    socket.broadcast.emit('server-send-message', bcData);
+    socket.emit('server-send-message', cmData);
+    // io.sockets.emit('server-send-message', data);
   });
 
   // lang nghe user disconnect
-  socket.on('disconnect', function() {
-    arrUsersOnline.splice(arrUsersOnline.lastIndexOf(socket.id));
+  socket.on('disconnect', function(socket) {
+
+    arrUsersOnline.splice(arrUsersOnline.lastIndexOf(socket.username), 1);
     io.sockets.emit('users-online-system', arrUsersOnline.length);
+    console.log(arrUsersOnline.length);
   });
 
 });
