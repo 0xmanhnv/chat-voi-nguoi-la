@@ -67,3 +67,14 @@ footer {
     background: #13ceb4;
     color: white;
   }
+
+@media screen and (max-width: 768px) {
+  .navbar-header {
+    width: 70%;
+    float: left;
+  }
+  #usersOnline {
+    width: 30%;
+    float: right;
+  }
+}
