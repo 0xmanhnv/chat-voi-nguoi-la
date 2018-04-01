@@ -1,4 +1,4 @@
-var socket = io('https://nguyenmanh.herokuapp.com');
+var socket = io('https://thinhthuhang.herokuapp.com');
 
 
 socket.on('users-online-system', function(data) {
